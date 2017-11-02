@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 //protects against potential xss attacks, it replaces things like < or > with unicode
 import serialize from 'serialize-javascript';
+import { Helmet } from 'react-helmet';
 
 
 export default (req, store, context) => {
@@ -17,12 +18,16 @@ export default (req, store, context) => {
         </div>
       </StaticRouter>
     </Provider>
-
   );
+
+  const helmet = Helmet.renderStatic();
 
   return `
     <html>
-      <head></head>
+      <head>
+        ${helmet.title.toString()}
+        ${helmet.meta.toString()}
+      </head>
       <body>
         <div id="root">${content}</div>
         <script>
